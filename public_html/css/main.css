@@ -159,6 +159,8 @@ nav a:hover {
 .main aside {
     color: white;
     padding: 0px 5% 10px;
+    padding-right: 42px;
+    margin-top:20px;
 }
 
 .footer-container footer {
@@ -273,7 +275,7 @@ nav a:hover {
 
     .main aside {
         float: right;
-        width: 25%;
+        width: 18%;
     }
 }
 
@@ -282,6 +284,149 @@ nav a:hover {
 /* ===============
     Maximal Width
    =============== */
+
+form{
+width:57%;
+margin:2% 0%;
+padding-left:30px;
+padding-top:15px;
+
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	background-color: rgba(255,255,255,.53);
+	-webkit-box-shadow: 0 0 4px rgba(0,0,0,.31), inset 0 -6px 2px rgba(0,0,0,.33), inset 0 0 2px #fff;
+	-moz-box-shadow: 0 0 4px rgba(0,0,0,.31), inset 0 -6px 2px rgba(0,0,0,.33), inset 0 0 2px #fff;
+	box-shadow: 0 0 4px rgba(0,0,0,.31), inset 0 -6px 2px rgba(0,0,0,.33), inset 0 0 2px #fff;
+        background-image: -webkit-linear-gradient(126deg, #161616, #202020);
+	background-image: -moz-linear-gradient(126deg, #161616, #202020);
+	background-image: -o-linear-gradient(126deg, #161616, #202020);
+	background-image: -ms-linear-gradient(126deg, #161616, #202020);
+	background-image: linear-gradient(126deg, #161616, #202020);
+        color:white;
+        font-family: Lato;
+}
+
+
+input[type=submit]
+{
+        margin-bottom: 20px;
+        width:89%;
+        padding: 15px;
+        -webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	background-color: rgba(255,255,255,0);
+	-webkit-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	-moz-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	border: solid 1px #120536;
+        background-image: -webkit-linear-gradient(-340deg, #c71469 5%, #00aeff);
+	background-image: -moz-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: -o-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: -ms-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: linear-gradient(-340deg, #00aeff 5%, #c71469);
+        margin-bottom: 30px;
+        color: aliceblue;
+        font-size:15px;
+        cursor:pointer;
+
+}
+input[type=reset]
+{
+        margin-bottom: 20px;
+        width:89%;
+        padding: 15px;
+        -webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	background-color: rgba(255,255,255,0);
+	-webkit-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	-moz-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	border: solid 1px #120536;
+        background-image: -webkit-linear-gradient(-340deg, #c71469 5%, #00aeff);
+	background-image: -moz-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: -o-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: -ms-linear-gradient(-340deg, #00aeff 5%, #c71469);
+	background-image: linear-gradient(-340deg, #00aeff 5%, #c71469);
+        margin-bottom: 30px;
+        color: aliceblue;
+        font-size:15px;
+        cursor:pointer;
+}
+
+textarea{
+width:100%;
+padding: 15px;
+margin-top: 10px;
+border:1px solid #7ac9b7;
+border-radius:5px;
+margin-bottom: 20px;
+resize:none;
+}
+input[type=text],input[type="date"],input[type=url],textarea,input[type=email],input[type=password] {
+        
+        border: 0px solid;
+	background-color: #100f0f;
+	height: 33px;
+        width: 295px;
+        -webkit-box-shadow: 1px 1px rgba(255,255,255,.12), inset 1px 2px 3px rgba(0,0,0,.52);
+	-moz-box-shadow: 1px 1px rgba(255,255,255,.12), inset 1px 2px 3px rgba(0,0,0,.52);
+	box-shadow: 1px 1px rgba(255,255,255,.12), inset 1px 2px 3px rgba(0,0,0,.52);
+}
+
+input[type=submit]:hover{
+        color:#ccccff;
+}
+
+input[type=reset]:hover{
+        color:#ccccff;
+        margin-bottom: 20px;
+        width:89%;
+        padding: 15px;
+        -webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	background-color: rgba(255,255,255,0);
+	-webkit-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	-moz-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	border: solid 1px #120536;
+        background-image: -webkit-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -moz-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -o-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -ms-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: linear-gradient(-340deg, #006999 5%, #9e3467);
+        margin-bottom: 30px;
+        color: aliceblue;
+        font-size:15px;
+        cursor:pointer;
+}
+
+input[type=submit]:hover{
+        color:#ccccff;
+        margin-bottom: 20px;
+        width:89%;
+        padding: 15px;
+        -webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	background-color: rgba(255,255,255,0);
+	-webkit-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	-moz-box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	box-shadow: 0 3px 1px rgba(0,0,0,.45), inset 0 -7px 5px rgba(0,0,0,.12), inset 0 0 3px rgba(0,26,125,.6);
+	border: solid 1px #120536;
+        background-image: -webkit-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -moz-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -o-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: -ms-linear-gradient(-340deg, #006999 5%, #9e3467);
+	background-image: linear-gradient(-340deg, #006999 5%, #9e3467);
+        margin-bottom: 30px;
+        color: aliceblue;
+        font-size:15px;
+        cursor:pointer;
+}
 
     .wrapper {
         width: 1026px; /* 1140px - 10% for margins */
@@ -420,4 +565,9 @@ a:hover, a:visited, a:link, a:active
 
 #menu li a {
     color:white;
+}
+
+#logo {
+max-width: 100%;
+height: auto !important;
 }
