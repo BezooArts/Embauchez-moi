@@ -1,3 +1,16 @@
+<?php
+
+		ob_start();
+		session_start();
+		require_once 'db.php';
+				 
+		if ( isset($_SESSION['candidat'])!="" ) {
+		header("Location: home.php");
+		exit;
+		}
+
+?>
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -10,41 +23,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
+        
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-        <style>
-            .obligatoire{
-                color:#cc0033;
-            }
-            @media only screen and (min-width:1140px){
-            #inscription {
-                padding-left:100px;
-            }
-            
-            form {
-                margin-left: 95px;
-                
-            }
-            
-            h1 {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            h2 {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            p {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            }
-
-        </style>
+      
     </head>
     <body>
          
@@ -55,10 +39,10 @@
 
         <div class="header-container">
             <header class="wrapper clearfix">
-			<a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
-			<nav>
+               <a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
+                <nav>
                     <ul>
-                       
+                        <li><a href="login.php">Connexion</a></li>
                     </ul>
                 </nav>
             </header>
@@ -77,27 +61,14 @@
                         
                     
                     </aside>
-                <article id="inscription">
-                   <h1>Embauchez-Moi!</h1>
-
-	<h2>Veuillez-vous inscrire</h2>
-	<p>Les champs avec une <span class="obligatoire">*</span> sont obligatoires</p>
-	<form action="cible_inscription-candidat.php" method="post">
-	<label>Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mail" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mailverif" required="required"/><br/>
-	<br/>
-	<label>Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="password" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="passverif" required="required"/><br/>
-	<br/>
-	<input id="reset" type="reset" value="Effacer" >
-	<input id="submit" type="submit" value="Valider" >
-	</form>
+                <article>
+                    <header>
+                       
+                        <h1>Inscription</h1>
+                        <p>Pas encore inscrit ? Alors n'attendez pas !</p>
+						<button onclick="location.href='inscription-candidat.html'">S'inscrire</button>
+                    </header>
+                  
                 </article>
 
                 
@@ -110,7 +81,8 @@
                 <h3>Embauchez-moi</h3>
             </footer>
         </div>
- 
+
         <script src="js/main.js"></script>
+
     </body>
 </html>

@@ -56,9 +56,9 @@
         <div class="header-container">
             <header class="wrapper clearfix">
 			<a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
-			<nav>
+                <nav>
                     <ul>
-                       
+                     
                     </ul>
                 </nav>
             </header>
@@ -80,28 +80,90 @@
                 <article id="inscription">
                    <h1>Embauchez-Moi!</h1>
 
-	<h2>Veuillez-vous inscrire</h2>
-	<p>Les champs avec une <span class="obligatoire">*</span> sont obligatoires</p>
-	<form action="cible_inscription-candidat.php" method="post">
-	<label>Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mail" required="required"/><br/>
+	<h2>Connexion</h2>
+
+	<form action="login.php" method="POST">
+	<label>Adresse Mail:</label><br/>
+	<input type="email" name="mail" required="required"/><br/>
 	<br/>
-	<label>Saisissez de nouveau votre Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mailverif" required="required"/><br/>
+	<label>Mot de passe:</label><br/>
+	<input type="password" name="password" required="required"/><br/>
 	<br/>
-	<label>Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="password" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="passverif" required="required"/><br/>
-	<br/>
-	<input id="reset" type="reset" value="Effacer" >
-	<input id="submit" type="submit" value="Valider" >
+	<input name="submit" type="submit" value="Valider" >
 	</form>
                 </article>
-
-                
-
+			
+				<?php
+				 ob_start();
+				 session_start();
+				 require_once 'db.php';
+				 
+				 // it will never let you open index(login) page if session is set
+				 if ( isset($_SESSION['candidat'])!="" ) {
+				  header("Location: home.php");
+				  exit;
+				 }
+				 
+				 $error = false;
+				 
+				 if( isset($_POST['submit']) ) { 
+				  
+				  // prevent sql injections/ clear user invalid inputs
+				  $email = trim($_POST['mail']);
+				  $email = strip_tags($email);
+				  $email = htmlspecialchars($email);
+				  
+				  $pass = trim($_POST['password']);
+				  $pass = strip_tags($pass);
+				  $pass = htmlspecialchars($pass);
+				  // prevent sql injections / clear user invalid inputs
+				  
+				  if(empty($email)){
+				   $error = true;
+				   echo $emailError = "Please enter your email address.";
+				  } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+				   $error = true;
+				   echo $emailError = "Please enter valid email address.";
+				  }
+				  
+				  if(empty($pass)){
+				   $error = true;
+				   echo $passError = "Please enter your password.";
+				  }
+				  
+				  // if there's no error, continue to login
+				  if (!$error) {
+				   
+				   $password = $pass; // password hashing using SHA256
+				  
+				   /*$res=mysql_query("SELECT id_candidat, mail, password FROM candidat WHERE mail='$email'");
+				   $row=mysql_fetch_array($res);*/
+				   
+				    $res = $bdd->query("SELECT id_candidat, mail, password FROM candidat WHERE mail='$email'");
+					$row= $res->fetch();
+ 
+				   
+				   // $count = mysql_num_rows($res); 
+				   $count = $res->rowCount(); 
+				   
+				   if( $count == 1 && $row['password']==$password ) {
+					$_SESSION['candidat'] = $row['id_candidat'];
+					header("Location: home.php");
+				   } else {
+					echo $errMSG = "Incorrect Credentials, Try again...";
+				   }
+					
+				  }
+				  
+				 }
+				 
+				 else {
+					 
+					 
+				 }
+				?>
+			
+		
             </div> <!-- #main -->
         </div> <!-- #main-container -->
 

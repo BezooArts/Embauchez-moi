@@ -1,3 +1,17 @@
+<?php
+ ob_start();
+ session_start();
+ require_once 'db.php';
+ 
+ // if session is not set this will redirect to login page
+ if( !isset($_SESSION['candidat']) ) {
+  header("Location: login.php");
+  exit;
+ }
+ // select loggedin users detail
+ $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
+ $userRow= $res->fetch();
+?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -10,10 +24,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-        <style>
+        
+        
+             <style>
             .obligatoire{
                 color:#cc0033;
             }
@@ -43,8 +59,10 @@
             }
             
             }
-
         </style>
+        
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+      
     </head>
     <body>
          
@@ -58,7 +76,8 @@
 			<a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
 			<nav>
                     <ul>
-                       
+                        <li><a id="toggle">Menu</a></li>
+                        <li><a href="logout.php">Déconnexion</a></li>
                     </ul>
                 </nav>
             </header>
@@ -78,26 +97,51 @@
                     
                     </aside>
                 <article id="inscription">
-                   <h1>Embauchez-Moi!</h1>
+               <form method="post" action="profilFinish.php">
+	 
+     <fieldset>
+       <legend>1. Vos informations Personnelles</legend>
+		<label>Nom<span class="obligatoire">*</span>:</label>
+                <input type="text" name="nom" required="required" value="<?php if(isset($userRow['nom'])){echo $userRow['nom'];}?>"><br/><br/>
+		
+		<label>Prenom<span class="obligatoire">*</span>:</label>
+		<input type="text" name="prenom" required="required" value="<?php if(isset($userRow['prenom'])){echo $userRow['prenom'];}?>"><br/><br/>
+	
+		<label>Date de naissance<span class="obligatoire">*</span>:</label>
+		<input type="Date" name="date" required="required" value="<?php if(isset($userRow['date_naissance'])){echo $userRow['date_naissance'];}?>"><br/><br/>
+		
+		<label> Code postal:</label>
+		<input type="text" name="cp"><br/><br/>
+		
+		<label> Ville<span class="obligatoire">*</span>:</label>
+		<input type="text" name="ville" required="required" value="<?php if(isset($userRow['ville'])){echo $userRow['ville'];}?>"><br/><br/>
+		
+		<label> Tel:</label><br/>
+		<input type="text" name="phone"><br/><br/>
+		
+		<label> Site web:</label><br/>
+		<input type="url" name="web"><br/><br/>
+		
+		<label> Réseaux sociaux:</label><br/>
+		<input type="url" name="reseau">
+	  </fieldset>
+      <br>
+	 <fieldset>
+	   <legend> 2. Joindre Fichier</legend>
 
-	<h2>Veuillez-vous inscrire</h2>
-	<p>Les champs avec une <span class="obligatoire">*</span> sont obligatoires</p>
-	<form action="cible_inscription-candidat.php" method="post">
-	<label>Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mail" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mailverif" required="required"/><br/>
-	<br/>
-	<label>Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="password" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="passverif" required="required"/><br/>
-	<br/>
-	<input id="reset" type="reset" value="Effacer" >
-	<input id="submit" type="submit" value="Valider" >
-	</form>
+       <label> Photo de profil:</label>
+       <input type="file" name="photo">
+       <label> Format (jpeg, png)</label>
+       </br>
+       <br>
+        <label> Autres fichiers:</label>
+       <input type="file" name="autrefichier">
+       <label> Format (pdf)</label>
+        </br>
+       <input type="submit" value="Valider" name="submit">
+
+	  </fieldset>
+		</form>
                 </article>
 
                 

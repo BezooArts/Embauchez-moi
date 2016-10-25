@@ -1,3 +1,21 @@
+<?php
+ ob_start();
+ session_start();
+ require_once 'db.php';
+ 
+ // if session is not set this will redirect to login page
+ if( !isset($_SESSION['candidat']) ) {
+  header("Location: login.php");
+  exit;
+ }
+ // select loggedin users detail
+ /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
+ $userRow=mysql_fetch_array($res);*/
+ 
+ 
+ $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
+$userRow= $res->fetch();
+?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -10,10 +28,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-        <style>
+        
+        
+             <style>
             .obligatoire{
                 color:#cc0033;
             }
@@ -43,8 +63,10 @@
             }
             
             }
-
         </style>
+        
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+      
     </head>
     <body>
          
@@ -58,7 +80,8 @@
 			<a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
 			<nav>
                     <ul>
-                       
+                        <li><a id="toggle">Menu</a></li>
+                        <li><a href="logout.php">Déconnexion</a></li>
                     </ul>
                 </nav>
             </header>
@@ -77,28 +100,58 @@
                         
                     
                     </aside>
-                <article id="inscription">
-                   <h1>Embauchez-Moi!</h1>
-
-	<h2>Veuillez-vous inscrire</h2>
-	<p>Les champs avec une <span class="obligatoire">*</span> sont obligatoires</p>
-	<form action="cible_inscription-candidat.php" method="post">
-	<label>Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mail" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Adresse Mail<span class="obligatoire">*</span>:</label><br/>
-	<input  type="email" name="mailverif" required="required"/><br/>
-	<br/>
-	<label>Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="password" required="required"/><br/>
-	<br/>
-	<label>Saisissez de nouveau votre Mot de passe<span class="obligatoire">*</span>:</label><br/>
-	<input  type="password" name="passverif" required="required"/><br/>
-	<br/>
-	<input id="reset" type="reset" value="Effacer" >
-	<input id="submit" type="submit" value="Valider" >
-	</form>
-                </article>
+                <article id="inscription"><?php
+				
+				
+				if ( isset($_POST['submit']) ) {
+				
+					  $nom = trim($_POST['nom']);
+					  $nom = strip_tags($nom);
+					  $nom = htmlspecialchars($nom);
+					  
+					  $prenom = trim($_POST['prenom']);
+					  $prenom = strip_tags($prenom);
+					  $prenom = htmlspecialchars($prenom);
+					  
+					  $ville = trim($_POST['ville']);
+					  $ville = strip_tags($ville);
+					  $ville = htmlspecialchars($ville);
+					  
+					  $date = trim($_POST['date']);
+					  $date = strip_tags($date);
+					  $date = htmlspecialchars($date);
+					  
+					  if (!isset($nom) OR !isset($prenom) OR !isset($ville) OR !isset($date)){
+					$error = true;
+					echo $passError = "Vous n'avez pas rempli tous les champs obligatoires.<br/><a href='remplir-profil.php'>Retour</a>";
+					
+					}
+					  
+					else {
+			
+					$profilChange = 'oui';
+					
+					/*$query = "UPDATE candidat SET nom='$nom', ville='$ville', prenom='$prenom', date_naissance='$date', profilStatut='oui' WHERE id_candidat='".$_SESSION['candidat']."'";
+					echo $query;
+					$res = mysql_query($query);*/
+					
+					$stmt = $bdd->prepare("UPDATE candidat SET nom=:nom, ville=:ville, prenom=:prenom, date_naissance=:date, profilStatut=:profilStatut WHERE id_candidat=:candidat_session");
+					$stmt->execute(array(
+					'nom'=>$nom,
+					'prenom'=>$prenom,
+					'ville'=>$ville,
+					'date'=>$date,
+					'profilStatut'=>$profilChange,
+					'candidat_session'=>$_SESSION['candidat'] 
+					));
+					
+					header('Location:home.php');
+					}
+					
+					
+				}
+				?>
+				</article>
 
                 
 
