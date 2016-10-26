@@ -12,6 +12,9 @@
  
  $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
  $userRow= $res->fetch();
+ $res2 = $bdd->query("SELECT * FROM competences WHERE id_candidat=".$_SESSION['candidat']);
+ $count = $res2->rowCount(); 
+
  
  /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
  $userRow=mysql_fetch_array($res);*/
@@ -151,6 +154,28 @@ button:active {
 					</section><?php }?><br/>
 					<button onclick="">PROJETS</button>
 					<button onclick="">FICHIERS</button>
+					
+					</section><br/><br/><?php if($count > 0){?>
+                    <section style="padding-left:20px;padding-right:20px;padding-top:5px;padding-bottom:8px;
+						-webkit-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						-moz-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						background-image: -webkit-linear-gradient(-340deg, #c71469 5%, #00aeff);
+						background-image: -moz-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: -o-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: -ms-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: linear-gradient(-340deg, #00aeff 5%, #c71469);
+						color:white;
+						line-height:14px;
+					">
+                       <?php
+						   while($userCompetenceRow = $res2->fetch()){
+						   if($userCompetenceRow['description'] != NULL){
+						   echo "<br/>Compétence: ".$userCompetenceRow['nom']."<br/>Description: ".$userCompetenceRow['description']."<br/>Niveau: ".$userCompetenceRow['niveau']."<br/><br/>";
+						   }}
+						   ?>
+					</section><?php }?><br/>
+					
                     <footer>
                         <h3>article footer h3</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
