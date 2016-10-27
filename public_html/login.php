@@ -24,6 +24,7 @@
             
             form {
                 margin-left: 95px;
+				width:57%;
                 
             }
             

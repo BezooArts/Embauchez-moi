@@ -13,8 +13,11 @@
  $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
  $userRow= $res->fetch();
  $res2 = $bdd->query("SELECT * FROM competences WHERE id_candidat=".$_SESSION['candidat']);
- $count = $res2->rowCount(); 
-
+ $count = $res2->rowCount();
+ $res3 = $bdd->query("SELECT * FROM permis WHERE id_candidat=".$_SESSION['candidat']);
+ $count2 = $res3->rowCount();
+ $res4 = $bdd->query("SELECT * FROM formation WHERE id_candidat=".$_SESSION['candidat']);
+ $count3 = $res4->rowCount();
  
  /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
  $userRow=mysql_fetch_array($res);*/
@@ -94,8 +97,8 @@ button:active {
 
         <div class="header-container">
             <header class="wrapper clearfix">
-               <img id="logo" src="img/logo.png" alt="logo"/>
-                <nav>
+			<a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
+			<nav>
                     <ul>
                         <li><a id="toggle">Menu</a></li>
                         <li><a href="logout.php">Déconnexion</a></li>
@@ -107,22 +110,22 @@ button:active {
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="remplir-profil.php">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
+                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
+                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
+                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
+                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
+                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
+                       <a href="projet-menu.php" id="sousmenu">Projet</a>
                        
-                       <ul><li>Rechercher</li></ul>
+                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
                     
                     </aside>
                 <article>
                     <header>
                        
-                        <h1>article header h1</h1>
-                        <p><?php echo 'Hello '.$userRow['prenom']; ?></p>
                     </header>
+					</br>
                     <section style="padding-left:20px;padding-right:20px;padding-top:5px;padding-bottom:8px;
 						-webkit-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
 						-moz-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
@@ -136,8 +139,10 @@ button:active {
 						line-height:20px;
 					">
 			
-					<p style="font-size:0.8em;"><img id="logo" style="float:left;height:90px;width:90px;display:inline;margin-right:6px;"src="<?php echo $userRow['photo_profil'];?>" alt="Photo de Profil"/><?php echo strtoupper($userRow['nom']).' '; echo $userRow['prenom'].'<br/>'.'Né le '.$userRow['date_naissance'].''.$userRow['adresse'].'<br/>'.$userRow['cp'].' '.$userRow['ville']; ?></p>
-					</section><br/><?php if(($userRow['mail_pro'] != NULL) OR ($userRow['site_web'] != NULL) ){?>
+					<p style="font-size:0.8em;"><img id="logo" style="float:left;height:90px;width:90px;display:inline;margin-right:6px;"src="<?php if($userRow['photo_profil']!=NULL){echo 'img/'.$userRow['photo_profil'];} else { echo 'img/default.jpg';}?>" alt="Photo de Profil"/>
+					<?php echo strtoupper($userRow['nom']).' '; echo $userRow['prenom'].'<br/>'.'Né le '.$userRow['date_naissance'].''.$userRow['adresse'].'<br/>'.$userRow['cp'].' '.$userRow['ville'].'<br/>';
+					if($count2 > 0){while($userPermis=$res3->fetch()){echo '- '.$userPermis['permis'].' ';}} 
+					else{ echo'<br/>';}?></p></section><br/><?php if(($userRow['mail_pro'] != NULL) OR ($userRow['site_web'] != NULL) OR ($userRow['tel'])){?>
                     <section style="padding-left:20px;padding-right:20px;padding-top:5px;padding-bottom:8px;
 						-webkit-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
 						-moz-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
@@ -150,7 +155,7 @@ button:active {
 						color:white;
 						line-height:14px;
 					">
-                       <?php if($userRow['mail_pro'] != NULL){ echo '<p style="font-size:0.8em;">Email Pro : '.$userRow['mail_pro'].'</p>'; }?><?php if($userRow['site_web'] != NULL){ echo '<p style="font-size:0.8em;">Site Web: '.$userRow['site_web'].'</p>'; }?>
+                       <?php if($userRow['mail_pro'] != NULL){ echo '<p style="font-size:0.8em;">Email Pro : '.$userRow['mail_pro'].'</p>'; }?><?php if($userRow['site_web'] != NULL){ echo '<p style="font-size:0.8em;">Site Web: '.$userRow['site_web'].'</p>'; }?><?php if($userRow['tel'] != NULL){ echo '<p style="font-size:0.8em;">Téléphone: 0'.$userRow['tel'].'</p>'; }?>
 					</section><?php }?><br/>
 					<button onclick="">PROJETS</button>
 					<button onclick="">FICHIERS</button>
@@ -172,14 +177,46 @@ button:active {
 						   while($userCompetenceRow = $res2->fetch()){
 						   if($userCompetenceRow['description'] != NULL){
 						   echo "<br/>Compétence: ".$userCompetenceRow['nom']."<br/>Description: ".$userCompetenceRow['description']."<br/>Niveau: ".$userCompetenceRow['niveau']."<br/><br/>";
-						   }}
+						   }
+						   
+						   else{
+						   echo "<br/>Compétence: ".$userCompetenceRow['nom']."<br/>Niveau: ".$userCompetenceRow['niveau']."<br/><br/>";
+						   }
+						   
+						   }
+						   ?>
+					</section><?php }?><br/>
+					<?php if($count3 > 0){?>
+                    <section style="padding-left:20px;padding-right:20px;padding-top:5px;padding-bottom:8px;
+						-webkit-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						-moz-box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						box-shadow: inset 0 -15px 13px rgba(0,0,0,.12);
+						background-image: -webkit-linear-gradient(-340deg, #c71469 5%, #00aeff);
+						background-image: -moz-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: -o-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: -ms-linear-gradient(-340deg, #00aeff 5%, #c71469);
+						background-image: linear-gradient(-340deg, #00aeff 5%, #c71469);
+						color:white;
+						line-height:14px;
+					"><br/>
+                       <?php
+						   while($userFormationRow = $res4->fetch()){
+							if($userFormationRow['diplome_obtenu']=='1'){
+								$diplome='oui';
+							}
+
+							else{
+								$diplome='non';
+							}	
+							echo "Nom Formation: ".$userFormationRow['nom'].'<br/>Année: '.$userFormationRow['annee'].'<br/>Niveau: '.$userFormationRow['niveau'].'<br/>Domaine: '.$userFormationRow['domaine'].'<br/>Etablissement: '.$userFormationRow['etablissement'].'<br/>Un diplome ? : '.$diplome.'<br/><br/>';
+						   }
 						   ?>
 					</section><?php }?><br/>
 					
+					
+					
                     <footer>
-                        <h3>article footer h3</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
-                    </footer>
+					</footer>
                 </article>
 
                 

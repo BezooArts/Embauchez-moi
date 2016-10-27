@@ -1,15 +1,24 @@
 <?php
 include_once("db.php");
-
 ob_start();
 session_start();
-
 if(!isset($_SESSION['candidat'])){
 	header("Location:login.php");
 	exit;
 }
-
-
+if (!empty($_POST['nom']) && !empty($_POST['categorie']) && !empty($_POST['lien'])){
+$stmt = $bdd->prepare('INSERT INTO projet (id_candidat,nom,categorie,description) VALUES(:id_candidat, :nom, :categorie, :description)');
+$stmt->execute(array(
+    'id_candidat' => $_SESSION['candidat'], 
+    'nom' => $_POST['nom'],
+    'categorie' => $_POST['categorie'], 
+    'description' => $_POST['description']
+)); 
+$id_projet = $bdd->lastInsertId();
+$req = $bdd->prepare('INSERT INTO galerie (nom, lien, id_projet) VALUES(:nom, :lien, :id_projet)');
+$req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$id_projet));
+    echo "Votre photo à bien été enregistrée dans la galerie.";
+}
 ?>
 
 <!doctype html>
@@ -27,6 +36,7 @@ if(!isset($_SESSION['candidat'])){
 
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="styleprojet.css">
         <style>
 		
 		
@@ -40,7 +50,7 @@ if(!isset($_SESSION['candidat'])){
             
             form {
                 margin-left: 95px;
-                width:57%;
+                
             }
             
             h1 {
@@ -65,8 +75,6 @@ if(!isset($_SESSION['candidat'])){
   color:red;
   font-size: 20px;
 }
-
-
 </style>
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
       
@@ -79,7 +87,7 @@ if(!isset($_SESSION['candidat'])){
 
         <div class="header-container">
             <header class="wrapper clearfix">
-             <a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
+               <img id="logo" src="img/logo.png" alt="logo"/>
                 <nav>
                     <ul>
                         <li><a id="toggle">Menu</a></li>
@@ -92,51 +100,51 @@ if(!isset($_SESSION['candidat'])){
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
-                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
-                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
-                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
-                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
-                       <a href="projet-menu.php" id="sousmenu">Projet</a>
+                    <ul><li><a href="remplir-profil.php">Mon Profil</a></li></ul>
+                       <a href="#" id="sousmenu">Sous Menu</a><br/>
+                       <a href="#" id="sousmenu">Sous Menu</a><br/>
+                       <a href="#" id="sousmenu">Sous Menu</a><br/>
+                       <a href="#" id="sousmenu">Sous Menu</a>
                        
-                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
+                       <ul><li>Rechercher</li></ul>
                         
                     
                     </aside>
               
-					<section><?php
-   if (!empty($_POST['permis'])){
+					<section>
 
-$stmt = $bdd->prepare('INSERT INTO permis (permis,id_candidat) VALUES(:permis,:candidat_session)');
 
-    $stmt->execute(array('permis'=>$_POST['permis'],'candidat_session'=>$_SESSION['candidat']));
-
-    echo "Votre permis à bien été enregistré.";
-}?>
-
-<form action="permis.php" method="post">
+<form action="projet.php" method="post">
 <fieldset>
-<h3 style="margin:0">Permis</h3>
-<br>
-    <select style="color:black;" name="permis" size="1">
-    <option>Permis A1</option>
-    <option selected>Permis A</option>
-    <option>Permis B</option>
-    <option>Permis B1</option>
-    <option>Permis C</option>
-    <option>Permis D</option>
-    <option>Permis EB</option>
-    <option>Permis EC</option>
-    <option>Permis ED</option>
-    </select>
+    <legend>  Projet </legend>
+    <br>
+    <label>Nom:</label>
+    <input type="text" name="nom">
     <br>
     <br>
-	<input type="submit" name="ajout" value="Ajouter">
+    <label>Catégorie:</label>
+    <input type="text" name="categorie">
+    <br>
+    <br>
+    <label>Description:</label>
+    <br>
+    <textarea id="txtArea" name="description" rows="9" cols="50"></textarea>
+    <br>
+    <br>
+    <label>Ajouter des photos du projet:</label>
+    <br>
+    <input type="file" name="lien">
+    <br>
+    <br>
+    <button>Annuler</button>
+    <br>
+    <br>
+    <input type="submit" name="valider" value="Valider">
 
 </fieldset>
 	
 </form>
-</section>
+
   </div> <!-- #main -->
         </div> <!-- #main-container -->
 

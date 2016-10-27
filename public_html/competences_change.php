@@ -9,12 +9,11 @@
   exit;
  }
  // select loggedin users detail
- /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
- $userRow=mysql_fetch_array($res);*/
- 
- 
  $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
-$userRow= $res->fetch();
+ $userRow= $res->fetch();
+ $res2 = $bdd->query("SELECT * FROM competences WHERE id_candidat=".$_SESSION['candidat']." AND id_competences=".$_GET['id']);
+ $userCompetenceRow= $res2->fetch();
+ 
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -44,7 +43,7 @@ $userRow= $res->fetch();
             
             form {
                 margin-left: 95px;
-                
+                width:57%;
             }
             
             h1 {
@@ -53,7 +52,7 @@ $userRow= $res->fetch();
             }
             
             h2 {
-                margin-left: 95px;
+                
                 font-family: Lato;
             }
             
@@ -99,68 +98,127 @@ $userRow= $res->fetch();
                        
                        <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
-                    
                     </aside>
-                <article id="inscription"><?php
-				
-				
-				if ( isset($_POST['submit']) ) {
+                <article id="inscription">
+						<?php
+		if($userCompetenceRow['id_competences']==NULL) {
+			header("refresh:7;url=competences-menu.php");
+			echo "Vous avez tenté de modifier le URL, veuiller svp utiliser seulement les menus !<br/> Redirection dans 5 secondes";
+		}
+		
+		
+		else {
+		
+		if($_GET['change']=='edit')	{
+			
+		if(isset($_GET['id'])){
+		 if ( isset($_POST['submit']) ) {
 				
 					  $nom = trim($_POST['nom']);
 					  $nom = strip_tags($nom);
 					  $nom = htmlspecialchars($nom);
 					  
-					  $prenom = trim($_POST['prenom']);
-					  $prenom = strip_tags($prenom);
-					  $prenom = htmlspecialchars($prenom);
+					  $niveau = trim($_POST['niveau']);
+					  $niveau = strip_tags($niveau);
+					  $niveau = htmlspecialchars($niveau);
 					  
-					  $ville = trim($_POST['ville']);
-					  $ville = strip_tags($ville);
-					  $ville = htmlspecialchars($ville);
+					  $id_competence = trim($_POST['id_competences']);
+					  $id_competence = strip_tags($id_competence);
+					  $id_competence = htmlspecialchars($id_competence);
 					  
-					  $date = trim($_POST['date']);
-					  $date = strip_tags($date);
-					  $date = htmlspecialchars($date);
+					  if(isset($_POST['description'])){
+					  $description = trim($_POST['description']);
+					  $description = strip_tags($description);
+					  $description = htmlspecialchars($description);}
 					  
-					  if(isset($_POST['web'])){
-					  $web = trim($_POST['web']);
-					  $web = strip_tags($web);
-					  $web = htmlspecialchars($web);}
+					  else {$description = NULL;}
 					  
-					  else {$web = NULL;}
 					  
-					  if (!isset($nom) OR !isset($prenom) OR !isset($ville) OR !isset($date)){
+					  
+					  
+			if (!isset($nom) OR !isset($niveau)){
 					$error = true;
-					echo $passError = "Vous n'avez pas rempli tous les champs obligatoires.<br/><a href='remplir-profil.php'>Retour</a>";
+					echo $passError = "<br/>Vous n'avez pas rempli tous les champs obligatoires.";
 					
 					}
 					  
 					else {
-			
-					$profilChange = 'oui';
 					
-					/*$query = "UPDATE candidat SET nom='$nom', ville='$ville', prenom='$prenom', date_naissance='$date', profilStatut='oui' WHERE id_candidat='".$_SESSION['candidat']."'";
-					echo $query;
-					$res = mysql_query($query);*/
-					
-					$stmt = $bdd->prepare("UPDATE candidat SET nom=:nom, ville=:ville, prenom=:prenom, date_naissance=:date, profilStatut=:profilStatut, site_web=:web WHERE id_candidat=:candidat_session");
+					$stmt = $bdd->prepare("UPDATE competences SET nom=:nom, description=:description, niveau=:niveau WHERE id_candidat=:candidat_session AND id_competences=:competence");
 					$stmt->execute(array(
 					'nom'=>$nom,
-					'prenom'=>$prenom,
-					'ville'=>$ville,
-					'date'=>$date,
-					'profilStatut'=>$profilChange,
-					'candidat_session'=>$_SESSION['candidat'], 
-					'web'=>$web
+					'niveau'=>$niveau,
+					'description'=>$description,
+					'candidat_session'=>$_SESSION['candidat'],
+					'competence'=>$id_competence
 					));
 					
-					header('Location:home.php');
-					}
+					echo "<br/><h2>Modification Effectué !</h2><h4>Actualisation dans 2 secondes...</h4>";
 					
+					header("Refresh:2");
 					
+					}					
+ 
+		}
+		
+		}
+		
+		else {
+			echo "<br/>Vous n'êtes pas passez par le lien par default";
+		}
+		
+		
+		
 				}
-				?>
-				</article>
+				
+				else if($_GET['change']=='delete'){
+					
+					 
+	 $sql = "DELETE FROM competences WHERE id_candidat=:candidat_session AND id_competences=:id_competence";
+	 $req = $bdd->prepare($sql);
+	 $req->execute(array(
+	 'candidat_session'=>$_SESSION['candidat'],
+	 'id_competence'=>$_GET['id']
+	 ));
+					
+					echo 'La compétence a correctement était supprimé ! <br/> &nbsp &nbsp REDIRECTION dans 5 secondes ! ';
+					header("refresh:5;url=competences-menu.php");
+				}
+				
+				else {
+								header("refresh:7;url=competences-menu.php");
+			echo "Vous avez tenté de modifier le URL, veuiller svp utiliser seulement les menus !<br/> Redirection dans 5 secondes";				
+				}
+				
+				
+ 
+ ?>
+ 
+ <?php if($_GET['change']=='edit'){?>
+               <form method="post" action="competences_change.php?id=<?php echo $_GET['id']; ?>&change=<?php echo $_GET['change']; ?>">
+	 
+     <fieldset>
+       <h2><?php echo $userCompetenceRow['nom']; ?></h2>
+		<label>Nom<span class="obligatoire">*</span>:</label>
+                <input type="text" name="nom" required="required" value="<?php echo $userCompetenceRow['nom'];?>"><br/><br/>
+		
+		<label>Niveau<span class="obligatoire">*</span>: (1:minimum - 5:maximum)</label>
+		<input type="number" name="niveau" min="1" max="5" required="required" value="<?php echo $userCompetenceRow['niveau'];?>"><br/><br/>
+		
+		<label>Description:</label><br/>
+		<input type="text" name="description" value="<?php if(isset($userCompetenceRow['description'])){echo $userCompetenceRow['description'];}?>"><br/><br/>
+		<input type="hidden" name="id_competences" value="<?php if(isset($_GET['id'])){ echo $_GET['id']; } ?>">
+		<input type="submit" value="Valider" name="submit">
+	  </fieldset>
+  
+		</form>
+ <?php }
+ 
+
+		}
+ ?>
+ 
+                </article>
 
                 
 

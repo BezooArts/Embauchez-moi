@@ -9,12 +9,19 @@
   exit;
  }
  // select loggedin users detail
+ 
+ $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
+ $userRow= $res->fetch();
+ $res2 = $bdd->query("SELECT * FROM competences WHERE id_candidat=".$_SESSION['candidat']);
+ $count = $res2->rowCount();
+ 
  /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
  $userRow=mysql_fetch_array($res);*/
  
+ if($userRow['profilStatut']=="non"){
+	 header("Location: remplir-profil.php");
+ }
  
- $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
-$userRow= $res->fetch();
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -31,40 +38,49 @@ $userRow= $res->fetch();
 
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
-        
-        
-             <style>
-            .obligatoire{
-                color:#cc0033;
-            }
-            @media only screen and (min-width:1140px){
-            #inscription {
-                padding-left:100px;
-            }
-            
-            form {
-                margin-left: 95px;
-                
-            }
-            
-            h1 {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            h2 {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            p {
-                margin-left: 95px;
-                font-family: Lato;
-            }
-            
-            }
-        </style>
-        
+        <style>
+button {
+	-moz-box-shadow:inset 0px 9px 30px 5px #29bbff;
+	-webkit-box-shadow:inset 0px 9px 30px 5px #29bbff;
+	box-shadow:inset 0px 9px 30px 5px #29bbff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #842da1), color-stop(1, #2c87b8));
+	background:-moz-linear-gradient(top, #842da1 5%, #2c87b8 100%);
+	background:-webkit-linear-gradient(top, #842da1 5%, #2c87b8 100%);
+	background:-o-linear-gradient(top, #842da1 5%, #2c87b8 100%);
+	background:-ms-linear-gradient(top, #842da1 5%, #2c87b8 100%);
+	background:linear-gradient(to bottom, #842da1 5%, #2c87b8 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#842da1', endColorstr='#2c87b8',GradientType=0);
+	background-color:#842da1;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	border:1px solid #0b0e07;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:9px 23px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+}
+button:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #2c87b8), color-stop(1, #842da1));
+	background:-moz-linear-gradient(top, #2c87b8 5%, #842da1 100%);
+	background:-webkit-linear-gradient(top, #2c87b8 5%, #842da1 100%);
+	background:-o-linear-gradient(top, #2c87b8 5%, #842da1 100%);
+	background:-ms-linear-gradient(top, #2c87b8 5%, #842da1 100%);
+	background:linear-gradient(to bottom, #2c87b8 5%, #842da1 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#2c87b8', endColorstr='#842da1',GradientType=0);
+	background-color:#2c87b8;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+
+		</style>
+		
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
       
     </head>
@@ -101,66 +117,34 @@ $userRow= $res->fetch();
                         
                     
                     </aside>
-                <article id="inscription"><?php
-				
-				
-				if ( isset($_POST['submit']) ) {
-				
-					  $nom = trim($_POST['nom']);
-					  $nom = strip_tags($nom);
-					  $nom = htmlspecialchars($nom);
-					  
-					  $prenom = trim($_POST['prenom']);
-					  $prenom = strip_tags($prenom);
-					  $prenom = htmlspecialchars($prenom);
-					  
-					  $ville = trim($_POST['ville']);
-					  $ville = strip_tags($ville);
-					  $ville = htmlspecialchars($ville);
-					  
-					  $date = trim($_POST['date']);
-					  $date = strip_tags($date);
-					  $date = htmlspecialchars($date);
-					  
-					  if(isset($_POST['web'])){
-					  $web = trim($_POST['web']);
-					  $web = strip_tags($web);
-					  $web = htmlspecialchars($web);}
-					  
-					  else {$web = NULL;}
-					  
-					  if (!isset($nom) OR !isset($prenom) OR !isset($ville) OR !isset($date)){
-					$error = true;
-					echo $passError = "Vous n'avez pas rempli tous les champs obligatoires.<br/><a href='remplir-profil.php'>Retour</a>";
+                <article>
+                    <header>
+                       
+                    </header>
 					
+					<h2>Mes Compétences</h2>
+					
+					<?php 
+					
+					if($count > 0){
+						while($userCompetenceRow = $res2->fetch()){
+						   echo "Compétence: ".$userCompetenceRow['nom']."<br/><a href='competences_change.php?id=".$userCompetenceRow['id_competences']."&change=edit'> Modifier </a>"." - <a href='competences_change.php?id=".$userCompetenceRow['id_competences']."&change=delete'> Supprimer </a><br/><br/>"; 
+						   }
 					}
-					  
+					
 					else {
-			
-					$profilChange = 'oui';
-					
-					/*$query = "UPDATE candidat SET nom='$nom', ville='$ville', prenom='$prenom', date_naissance='$date', profilStatut='oui' WHERE id_candidat='".$_SESSION['candidat']."'";
-					echo $query;
-					$res = mysql_query($query);*/
-					
-					$stmt = $bdd->prepare("UPDATE candidat SET nom=:nom, ville=:ville, prenom=:prenom, date_naissance=:date, profilStatut=:profilStatut, site_web=:web WHERE id_candidat=:candidat_session");
-					$stmt->execute(array(
-					'nom'=>$nom,
-					'prenom'=>$prenom,
-					'ville'=>$ville,
-					'date'=>$date,
-					'profilStatut'=>$profilChange,
-					'candidat_session'=>$_SESSION['candidat'], 
-					'web'=>$web
-					));
-					
-					header('Location:home.php');
+						echo "Vous n'avez aucune compétence d'ajoutée !<br/>";
+						
 					}
+				
 					
+					?>
 					
-				}
-				?>
-				</article>
+					<a href="competences.php">Ajouter une compétence</a>
+					
+                    <footer>
+					</footer>
+                </article>
 
                 
 
@@ -172,7 +156,8 @@ $userRow= $res->fetch();
                 <h3>Embauchez-moi</h3>
             </footer>
         </div>
- 
+
         <script src="js/main.js"></script>
+
     </body>
 </html>

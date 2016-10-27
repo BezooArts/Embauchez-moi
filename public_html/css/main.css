@@ -286,7 +286,7 @@ nav a:hover {
    =============== */
 
 form{
-width:57%;
+
 margin:2% 0%;
 padding-left:30px;
 padding-top:15px;
@@ -390,7 +390,7 @@ border-radius:5px;
 margin-bottom: 20px;
 resize:none;
 }
-input[type=text],input[type="date"],input[type=url],textarea,input[type=email],input[type=password] {
+input[type=text],input[type="date"],input[type=url],textarea,input[type=email],input[type=password],input[type=number] {
         
         border: 0px solid;
 	background-color: #100f0f;

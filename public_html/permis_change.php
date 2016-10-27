@@ -9,12 +9,11 @@
   exit;
  }
  // select loggedin users detail
- /*$res=mysql_query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
- $userRow=mysql_fetch_array($res);*/
- 
- 
  $res = $bdd->query("SELECT * FROM candidat WHERE id_candidat=".$_SESSION['candidat']);
-$userRow= $res->fetch();
+ $userRow= $res->fetch();
+ $res2 = $bdd->query("SELECT * FROM permis WHERE id_candidat=".$_SESSION['candidat']." AND id_permis=".$_GET['id']);
+ $userPermisRow= $res2->fetch();
+ 
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -44,7 +43,7 @@ $userRow= $res->fetch();
             
             form {
                 margin-left: 95px;
-                
+                width:57%;
             }
             
             h1 {
@@ -53,7 +52,7 @@ $userRow= $res->fetch();
             }
             
             h2 {
-                margin-left: 95px;
+                
                 font-family: Lato;
             }
             
@@ -99,68 +98,44 @@ $userRow= $res->fetch();
                        
                        <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
-                    
                     </aside>
-                <article id="inscription"><?php
+                <article id="inscription">
+						<?php
+		if($userPermisRow['id_permis']==NULL) {
+			header("refresh:7;url=permis-menu.php");
+			echo "Vous avez tenté de modifier le URL, veuiller svp utiliser seulement les menus !<br/> Redirection dans 5 secondes";
+		}
+		
+		else {
+		
+		
 				
-				
-				if ( isset($_POST['submit']) ) {
-				
-					  $nom = trim($_POST['nom']);
-					  $nom = strip_tags($nom);
-					  $nom = htmlspecialchars($nom);
-					  
-					  $prenom = trim($_POST['prenom']);
-					  $prenom = strip_tags($prenom);
-					  $prenom = htmlspecialchars($prenom);
-					  
-					  $ville = trim($_POST['ville']);
-					  $ville = strip_tags($ville);
-					  $ville = htmlspecialchars($ville);
-					  
-					  $date = trim($_POST['date']);
-					  $date = strip_tags($date);
-					  $date = htmlspecialchars($date);
-					  
-					  if(isset($_POST['web'])){
-					  $web = trim($_POST['web']);
-					  $web = strip_tags($web);
-					  $web = htmlspecialchars($web);}
-					  
-					  else {$web = NULL;}
-					  
-					  if (!isset($nom) OR !isset($prenom) OR !isset($ville) OR !isset($date)){
-					$error = true;
-					echo $passError = "Vous n'avez pas rempli tous les champs obligatoires.<br/><a href='remplir-profil.php'>Retour</a>";
+				if($_GET['change']=='delete'){
 					
-					}
-					  
-					else {
-			
-					$profilChange = 'oui';
+					 
+	 $sql = "DELETE FROM permis WHERE id_candidat=:candidat_session AND id_permis=:id_permis";
+	 $req = $bdd->prepare($sql);
+	 $req->execute(array(
+	 'candidat_session'=>$_SESSION['candidat'],
+	 'id_permis'=>$_GET['id']
+	 ));
 					
-					/*$query = "UPDATE candidat SET nom='$nom', ville='$ville', prenom='$prenom', date_naissance='$date', profilStatut='oui' WHERE id_candidat='".$_SESSION['candidat']."'";
-					echo $query;
-					$res = mysql_query($query);*/
-					
-					$stmt = $bdd->prepare("UPDATE candidat SET nom=:nom, ville=:ville, prenom=:prenom, date_naissance=:date, profilStatut=:profilStatut, site_web=:web WHERE id_candidat=:candidat_session");
-					$stmt->execute(array(
-					'nom'=>$nom,
-					'prenom'=>$prenom,
-					'ville'=>$ville,
-					'date'=>$date,
-					'profilStatut'=>$profilChange,
-					'candidat_session'=>$_SESSION['candidat'], 
-					'web'=>$web
-					));
-					
-					header('Location:home.php');
-					}
-					
-					
+					echo 'La compétence a correctement était supprimé ! <br/> &nbsp &nbsp REDIRECTION dans 5 secondes ! ';
+					header("refresh:5;url=permis-menu.php");
 				}
-				?>
-				</article>
+				
+				else {
+			header("refresh:7;url=permis-menu.php");
+			echo "Vous avez tenté de modifier le URL, veuiller svp utiliser seulement les menus !<br/> Redirection dans 5 secondes";
+	
+				}
+				
+ 
+
+		}
+ ?>
+ 
+                </article>
 
                 
 

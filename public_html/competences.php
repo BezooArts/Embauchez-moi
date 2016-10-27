@@ -25,7 +25,7 @@
             
             form {
                 margin-left: 95px;
-                
+                width:57%;
             }
             
             h1 {
@@ -34,7 +34,7 @@
             }
             
             h2 {
-                margin-left: 95px;
+                margin-left: 25px;
                 font-family: Lato;
             }
             
@@ -85,7 +85,7 @@
 
         <div class="header-container">
             <header class="wrapper clearfix">
-               <img id="logo" src="img/logo.png" alt="logo"/>
+               <a href="index.php"><img id="logo" src="img/logo.png" alt="logo"/></a>
                 <nav>
                     <ul>
                         <li><a id="toggle">Menu</a></li>
@@ -98,13 +98,14 @@
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="remplir-profil.php">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
+                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
+                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
+                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
+                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
+                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
+                       <a href="projet-menu.php" id="sousmenu">Projet</a>
                        
-                       <ul><li>Rechercher</li></ul>
+                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
                     
                     </aside>
@@ -123,6 +124,8 @@ include('db.php');
  }
 
 if (!empty($_POST['nom']) && !empty($_POST['niveau'])){
+	
+	//if(!empty($_POST['description'])){
 
 $stmt = $bdd->prepare('INSERT INTO COMPETENCES(id_candidat,nom,niveau, description)
         VALUES (:id_candidat, :nom, :niveau, :description)');
@@ -133,7 +136,20 @@ $stmt = $bdd->prepare('INSERT INTO COMPETENCES(id_candidat,nom,niveau, descripti
 	echo "<br/>Redirection dans 5 secondes !";	
 						header( "refresh:5;url=home.php" );	
 
+	//}
+	
+	/*else {
+		$stmt = $bdd->prepare('INSERT INTO COMPETENCES(id_candidat,nom,niveau,)
+        VALUES (:id_candidat, :nom, :niveau)');
 
+    $stmt->execute (array('id_candidat'=>$_SESSION['candidat'],'nom'=>$_POST['nom'], 'niveau'=>$_POST['niveau']));
+
+    echo "Votre compétence à bien été enregistrée.";
+	echo "<br/>Redirection dans 5 secondes !";	
+						header( "refresh:5;url=home.php" );	
+		
+	}*/
+	
   }  
  else
  {

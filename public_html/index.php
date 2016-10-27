@@ -51,15 +51,7 @@
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
-                       
-                       <ul><li>Rechercher</li></ul>
-                        
-                    
+               
                     </aside>
                 <article>
                     <header>

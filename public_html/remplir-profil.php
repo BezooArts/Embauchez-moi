@@ -40,7 +40,7 @@
             
             form {
                 margin-left: 95px;
-                
+                width:57%;
             }
             
             h1 {
@@ -86,15 +86,15 @@
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
+                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
+                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
+                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
+                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
+                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
+                       <a href="projet-menu.php" id="sousmenu">Projet</a>
                        
-                       <ul><li>Rechercher</li></ul>
+                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
-                    
                     </aside>
                 <article id="inscription">
                <form method="post" action="profilFinish.php">
@@ -111,19 +111,17 @@
 		<input type="Date" name="date" required="required" value="<?php if(isset($userRow['date_naissance'])){echo $userRow['date_naissance'];}?>"><br/><br/>
 		
 		<label> Code postal:</label>
-		<input type="text" name="cp"><br/><br/>
+		<input type="text" name="cp"value="<?php if(isset($userRow['cp'])){echo $userRow['cp'];}?>"><br/><br/>
 		
-		<label> Ville<span class="obligatoire">*</span>:</label>
+		<label> Ville<span class="obligatoire">*</span>:</label><br/>
 		<input type="text" name="ville" required="required" value="<?php if(isset($userRow['ville'])){echo $userRow['ville'];}?>"><br/><br/>
 		
 		<label> Tel:</label><br/>
-		<input type="text" name="phone"><br/><br/>
+		<input type="text" name="phone" value="<?php if(isset($userRow['tel'])){echo '0'.$userRow['tel'];}?>"><br/><br/>
 		
 		<label> Site web:</label><br/>
-		<input type="url" name="web"><br/><br/>
+		<input type="url" name="web" value="<?php if(isset($userRow['site_web'])){echo $userRow['site_web'];}?>"><br/>
 		
-		<label> Réseaux sociaux:</label><br/>
-		<input type="url" name="reseau">
 	  </fieldset>
       <br>
 	 <fieldset>
@@ -131,12 +129,12 @@
 
        <label> Photo de profil:</label>
        <input type="file" name="photo">
-       <label> Format (jpeg, png)</label>
+       <label> Format (.jpeg .jpg .png .gif)</label>
        </br>
        <br>
         <label> Autres fichiers:</label>
        <input type="file" name="autrefichier">
-       <label> Format (pdf)</label>
+       <label> Format (.pdf)</label>
         </br>
        <input type="submit" value="Valider" name="submit">
 

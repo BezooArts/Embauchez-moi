@@ -63,13 +63,14 @@ while($donnees = $reponse->fetch())
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
+                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
+                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
+                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
+                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
+                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
+                       <a href="projet-menu.php" id="sousmenu">Projet</a>
                        
-                       <ul><li>Rechercher</li></ul>
+                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
                     
                     </aside>
