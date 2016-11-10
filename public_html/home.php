@@ -157,7 +157,7 @@ button:active {
 					">
                        <?php if($userRow['mail_pro'] != NULL){ echo '<p style="font-size:0.8em;">Email Pro : '.$userRow['mail_pro'].'</p>'; }?><?php if($userRow['site_web'] != NULL){ echo '<p style="font-size:0.8em;">Site Web: '.$userRow['site_web'].'</p>'; }?><?php if($userRow['tel'] != NULL){ echo '<p style="font-size:0.8em;">Téléphone: 0'.$userRow['tel'].'</p>'; }?>
 					</section><?php }?><br/>
-					<button onclick="">PROJETS</button>
+					<button onclick="window.open('mes-projets.php','name','width=600,height=400')">PROJETS</button>
 					<button onclick="">FICHIERS</button>
 					
 					</section><br/><br/><?php if($count > 0){?>

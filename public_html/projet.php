@@ -13,11 +13,21 @@ $stmt->execute(array(
     'nom' => $_POST['nom'],
     'categorie' => $_POST['categorie'], 
     'description' => $_POST['description']
-)); 
+));
+
+ 
 $id_projet = $bdd->lastInsertId();
 $req = $bdd->prepare('INSERT INTO galerie (nom, lien, id_projet) VALUES(:nom, :lien, :id_projet)');
 $req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$id_projet));
     echo "Votre photo à bien été enregistrée dans la galerie.";
+	
+	if(isset($_FILES['lien'])){
+    $file_name = $_FILES['lien']['name'];
+    $file_size =$_FILES['lien']['size'];
+    $file_tmp =$_FILES['lien']['tmp_name'];
+    $file_type=$_FILES['lien']['type'];
+    move_uploaded_file($file_tmp,"img/".$file_name);
+}   
 }
 ?>
 
@@ -49,8 +59,7 @@ $req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$
             }
             
             form {
-                margin-left: 95px;
-                
+                margin-left: 195px;
             }
             
             h1 {
@@ -59,7 +68,7 @@ $req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$
             }
             
             h2 {
-                margin-left: 95px;
+                margin-left: 35px;
                 font-family: Lato;
             }
             
@@ -100,29 +109,28 @@ $req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$
             <div class="main wrapper clearfix">
                 <aside id="menu">
                       <br/>
-                    <ul><li><a href="remplir-profil.php">Mon Profil</a></li></ul>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a><br/>
-                       <a href="#" id="sousmenu">Sous Menu</a>
+                    <ul><li><a href="home.php">Mon Profil</a></li></ul>
+                       <a href="remplir-profil.php" id="sousmenu">Modifier Profil</a><br/>
+                       <a href="competences-menu.php" id="sousmenu">Compétences</a><br/>
+                       <a href="formation-menu.php" id="sousmenu">Formation</a><br/>
+                       <a href="permis-menu.php" id="sousmenu">Permis</a><br/>
+                       <a href="projet-menu.php" id="sousmenu">Projet</a>
                        
-                       <ul><li>Rechercher</li></ul>
+                       <ul><li><a href="rechercher.php">Rechercher</a></li></ul>
                         
                     
                     </aside>
               
 					<section>
 
-
-<form action="projet.php" method="post">
-<fieldset>
-    <legend>  Projet </legend>
-    <br>
-    <label>Nom:</label>
+<article id="inscription">
+<form action="projet.php" method="post" >
+    <h2>Projet </h2>
+    <label>Nom:</label><br/>
     <input type="text" name="nom">
     <br>
     <br>
-    <label>Catégorie:</label>
+    <label>Catégorie:</label><br/>
     <input type="text" name="categorie">
     <br>
     <br>
@@ -136,15 +144,9 @@ $req->execute(array('nom'=>$_POST['nom'], 'lien'=>$_POST['lien'], 'id_projet'=>$
     <input type="file" name="lien">
     <br>
     <br>
-    <button>Annuler</button>
-    <br>
-    <br>
-    <input type="submit" name="valider" value="Valider">
-
-</fieldset>
-	
+   <input type="submit" name="valider" value="Valider">
 </form>
-
+</article>
   </div> <!-- #main -->
         </div> <!-- #main-container -->
 
